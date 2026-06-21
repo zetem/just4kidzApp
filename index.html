@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>just4kidz — Discover near Westboro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --coral-500:#F4612E;--coral-t:#FFF1EC;
+  --green-500:#1F9E5A;--green-50:#E9F8EF;--green-700:#13693C;
+  --amber-500:#E89110;--amber-50:#FFF6E5;--amber-700:#985A0A;
+  --sky-400:#2E9BC9;
+  --sand-50:#FFFBF6;--sand-100:#FBF4EA;--sand-200:#F3E9DA;--sand-300:#E9DBC8;--sand-400:#D8C7B0;
+  --ink-900:#241D18;--ink-800:#332A23;--ink-600:#6B5D51;--ink-500:#8A7B6E;--ink-400:#A99B8E;
+  --white:#fff;
+  --color-primary:#FB8B3D;--color-primary-hover:#F07A26;--color-primary-press:#DA6817;
+  --color-primary-soft:#FFE3CB;--color-primary-tint:#FFF5EC;
+  --bg-app:var(--sand-50);--bg-subtle:var(--sand-100);
+  --surface-card:var(--white);
+  --border-subtle:var(--sand-200);--border-default:var(--sand-300);
+  --text-strong:var(--ink-900);--text-body:var(--ink-800);
+  --text-muted:var(--ink-600);--text-subtle:var(--ink-500);--text-link:#E07418;
+  --avail-open-fg:var(--green-700);--avail-open-bg:var(--green-50);--avail-open-dot:var(--green-500);
+  --avail-filling-fg:var(--amber-700);--avail-filling-bg:var(--amber-50);--avail-filling-dot:var(--amber-500);
+  --avail-full-fg:var(--ink-600);--avail-full-bg:var(--sand-200);--avail-full-dot:var(--ink-400);
+  --cat-sports:#F4612E;--cat-arts:#9B5DE5;--cat-music:#E0559B;
+  --cat-outdoor:#1F9E5A;--cat-learn:#E89110;--cat-water:#2BB7C4;
+  --radius-xs:6px;--radius-sm:10px;--radius-md:14px;--radius-lg:18px;
+  --radius-pill:999px;--radius-card:20px;
+  --shadow-xs:0 1px 2px rgba(74,47,24,.06);
+  --shadow-sm:0 1px 3px rgba(74,47,24,.08),0 1px 2px rgba(74,47,24,.05);
+  --shadow-md:0 4px 12px rgba(74,47,24,.10),0 2px 4px rgba(74,47,24,.06);
+  --shadow-lg:0 12px 28px rgba(74,47,24,.14),0 4px 10px rgba(74,47,24,.07);
+  --shadow-xl:0 24px 48px rgba(74,47,24,.18),0 8px 16px rgba(74,47,24,.08);
+  --shadow-primary:0 6px 16px rgba(251,139,61,.34);
+  --dur-fast:130ms;--dur-base:200ms;
+  --ease-out:cubic-bezier(.22,1,.36,1);--ease-spring:cubic-bezier(.34,1.56,.64,1);
+  --font-sans:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;
+  --font-mono:"DM Mono",ui-monospace,"SF Mono",monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%}
+body{font-family:var(--font-sans);font-size:15px;line-height:1.45;color:var(--text-body);background:var(--sand-200);-webkit-font-smoothing:antialiased;display:flex;align-items:center;justify-content:center;padding:24px;min-height:100vh}
+h1,h2,h3,h4,h5,h6,p{margin:0}
+button{font-family:var(--font-sans);cursor:pointer}
+:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(61,116,232,.3)}
+*{scrollbar-width:none}
+*::-webkit-scrollbar{display:none}
+
+#root{display:flex;width:1440px;max-width:100%;height:900px}
+.app{display:flex;width:100%;height:100%;background:var(--bg-app);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-xl)}
+
+/* sidebar */
+.sidenav{flex:none;background:var(--surface-card);border-right:1px solid var(--border-subtle);display:flex;flex-direction:column;overflow:hidden;transition:width var(--dur-base) var(--ease-out),padding var(--dur-base) var(--ease-out)}
+.sidenav.expanded{width:248px;padding:22px 16px}
+.sidenav.collapsed{width:76px;padding:22px 12px}
+.nav-header{display:flex;align-items:center;margin-bottom:22px}
+.sidenav.expanded .nav-header{justify-content:space-between;padding-left:8px}
+.sidenav.collapsed .nav-header{justify-content:center;flex-direction:column;gap:12px}
+.toggle-btn{width:28px;height:28px;flex:none;border-radius:50%;border:1px solid var(--border-default);background:var(--surface-card);color:var(--text-muted);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;line-height:1;box-shadow:var(--shadow-xs)}
+.toggle-btn:hover{background:var(--bg-subtle)}
+.nav-items{display:flex;flex-direction:column;gap:4px}
+.nav-btn{display:flex;align-items:center;gap:12px;border:none;border-radius:var(--radius-md);font-size:14.5px;font-weight:700;white-space:nowrap;transition:background var(--dur-fast),color var(--dur-fast)}
+.sidenav.expanded .nav-btn{padding:11px 12px;width:100%;justify-content:flex-start}
+.sidenav.collapsed .nav-btn{padding:11px 0;width:100%;justify-content:center}
+.nav-btn.active{background:var(--color-primary-tint);color:var(--color-primary-press)}
+.nav-btn:not(.active){background:transparent;color:var(--text-muted)}
+.nav-btn:not(.active):hover{background:var(--bg-subtle)}
+.friends-box{padding:12px;background:var(--bg-subtle);border-radius:var(--radius-lg)}
+.friends-label{font-size:11.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--text-subtle);margin-bottom:10px}
+.friends-row{display:flex;align-items:center}
+.avatar{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex:none}
+.avatar-sm{width:32px;height:32px;font-size:12px;border:2px solid #fff}
+.avatar-md{width:40px;height:40px;font-size:15px}
+
+/* main */
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+.app-header{display:flex;align-items:center;gap:16px;padding:18px 28px;border-bottom:1px solid var(--border-subtle);background:var(--bg-app);flex:none}
+.header-title{font-size:20px;font-weight:800;letter-spacing:-.01em;color:var(--text-strong)}
+.header-sub{font-size:13px;font-weight:600;color:var(--text-muted);margin-top:1px}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.search-bar{display:flex;align-items:center;gap:9px;height:44px;padding:0 16px;background:var(--surface-card);border:1px solid var(--border-default);border-radius:var(--radius-pill);width:260px;box-shadow:var(--shadow-xs)}
+.search-bar span{font-size:14px;font-weight:600;color:var(--text-subtle)}
+.btn{display:inline-flex;align-items:center;gap:7px;border:none;border-radius:var(--radius-pill);font-weight:700;cursor:pointer;transition:background var(--dur-fast),transform var(--dur-fast) var(--ease-spring)}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--color-primary);color:#fff;padding:0 18px;height:40px;font-size:14px;box-shadow:var(--shadow-primary);font-family:var(--font-sans)}
+.btn-primary:hover{background:var(--color-primary-hover)}
+.btn-sm{height:34px;padding:0 14px;font-size:13px;font-family:var(--font-sans)}
+.btn-full{width:100%;justify-content:center}
+.btn-surface{background:var(--surface-card);color:var(--text-body);border:1.5px solid var(--border-default);box-shadow:var(--shadow-xs);width:44px;height:44px;border-radius:var(--radius-md);padding:0;display:flex;align-items:center;justify-content:center}
+.btn-surface:hover{background:var(--bg-subtle)}
+.btn-soft{background:var(--color-primary-soft);color:var(--color-primary-press);width:34px;height:34px;border-radius:var(--radius-md);padding:0;display:flex;align-items:center;justify-content:center;border:none}
+.btn-soft:hover{background:var(--color-primary-tint)}
+
+/* body */
+.body{flex:1;display:flex;min-height:0}
+
+/* results */
+.results-panel{width:424px;flex:none;border-right:1px solid var(--border-subtle);background:var(--bg-app);display:flex;flex-direction:column;min-height:0}
+.results-header{display:flex;align-items:center;padding:16px 20px 12px;flex:none}
+.results-count{font-size:16px;font-weight:800;color:var(--text-strong)}
+.sort-btn{margin-left:auto;font-size:13px;font-weight:700;color:var(--text-link);background:none;border:none;font-family:var(--font-sans)}
+.results-list{flex:1;overflow-y:auto;padding:0 20px 20px;display:flex;flex-direction:column;gap:12px}
+.activity-card{background:var(--surface-card);border-radius:var(--radius-card);padding:14px;cursor:pointer;border:2.5px solid transparent;box-shadow:var(--shadow-sm);transition:box-shadow var(--dur-base) var(--ease-out),border-color var(--dur-base),transform var(--dur-fast) var(--ease-spring)}
+.activity-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.activity-card.selected{border-color:var(--color-primary)}
+.card-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.cat-tag{display:inline-flex;align-items:center;gap:5px;padding:3px 9px 3px 5px;border-radius:var(--radius-pill);font-size:11.5px;font-weight:700}
+.avail-pill{margin-left:auto;display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:var(--radius-pill);font-size:11.5px;font-weight:700}
+.avail-dot{width:7px;height:7px;border-radius:50%;flex:none}
+.card-title{font-size:15px;font-weight:800;color:var(--text-strong);line-height:1.2;margin-bottom:5px}
+.card-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:12.5px;font-weight:600;color:var(--text-muted)}
+.meta-item{display:inline-flex;align-items:center;gap:4px}
+.card-price{margin-left:auto;font-family:var(--font-mono);font-weight:500;font-size:15px;color:var(--text-strong)}
+
+/* map */
+.map-pane{flex:1;position:relative;min-width:0;overflow:hidden}
+.map-chips{position:absolute;top:16px;left:16px;right:16px;display:flex;gap:8px;flex-wrap:wrap;z-index:10}
+.filter-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 14px 7px 10px;border-radius:var(--radius-pill);border:1.5px solid var(--border-default);background:var(--surface-card);color:var(--text-muted);font-size:13px;font-weight:700;box-shadow:var(--shadow-xs);transition:background var(--dur-fast),color var(--dur-fast),border-color var(--dur-fast);font-family:var(--font-sans)}
+.filter-chip:hover{box-shadow:var(--shadow-sm)}
+.filter-chip.active{background:var(--color-primary);color:#fff;border-color:transparent;box-shadow:var(--shadow-primary)}
+.map-locate{position:absolute;right:18px;bottom:18px;z-index:10}
+.map-popover{position:absolute;left:18px;bottom:18px;width:340px;background:var(--surface-card);border-radius:var(--radius-card);box-shadow:var(--shadow-xl);border:1px solid var(--border-subtle);padding:16px;z-index:20;animation:popIn var(--dur-base) var(--ease-out)}
+@keyframes popIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.pop-top{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.pop-title{font-size:18px;font-weight:800;letter-spacing:-.01em;color:var(--text-strong);line-height:1.2}
+.pop-loc{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:13px;font-weight:600;color:var(--text-muted)}
+.pop-meta{display:flex;align-items:center;gap:14px;margin-top:8px;font-size:12.5px;font-weight:600;color:var(--text-muted)}
+.pop-actions{display:flex;gap:10px;margin-top:14px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="module">
+import { createElement as h, useState, useCallback, useMemo } from 'https://esm.sh/react@18';
+import { createRoot } from 'https://esm.sh/react-dom@18/client';
+
+// ── Data ─────────────────────────────────────────────────────────────────────
+const ACTIVITIES = [
+  { id:"soccer", title:"Little Kickers — Intro Soccer",  place:"Riverside Community Centre", category:"sports",  distance:"1.2 km", age:"Ages 3–5", day:"Sat", time:"9:30 AM",  price:"$18",  status:"filling", spotsLeft:2,  total:12, x:38, y:44 },
+  { id:"art",    title:"Tiny Picassos Art Studio",        place:"The Maker Loft",             category:"arts",    distance:"0.6 km", age:"Ages 4–7", day:"Sun", time:"11:00 AM", price:"$24",  status:"open",    spotsLeft:8,  total:12, x:60, y:30 },
+  { id:"swim",   title:"Splash Tots Swim",                place:"Eastside Aquatic Centre",    category:"water",   distance:"3.4 km", age:"Ages 2–4", day:"Sat", time:"10:15 AM", price:"Free", status:"full",    spotsLeft:0,  total:10, x:74, y:62 },
+  { id:"forest", title:"Forest Explorers Nature Walk",    place:"Greenbelt Trailhead",        category:"outdoor", distance:"2.1 km", age:"Ages 3–8", day:"Sat", time:"1:00 PM",  price:"$10",  status:"open",    spotsLeft:14, total:20, x:26, y:66 },
+  { id:"music",  title:"Rhythm Sprouts Music Circle",     place:"Hillside Library",           category:"music",   distance:"1.8 km", age:"Ages 1–3", day:"Sun", time:"9:45 AM",  price:"Free", status:"filling", spotsLeft:3,  total:15, x:52, y:54 },
+  { id:"gym",    title:"Tumble Town Gymnastics",          place:"Westside Sportsplex",        category:"sports",  distance:"4.0 km", age:"Ages 4–6", day:"Sat", time:"2:30 PM",  price:"$22",  status:"open",    spotsLeft:6,  total:14, x:18, y:36 },
+  { id:"clay",   title:"Little Hands Pottery",            place:"Clayworks Studio",           category:"arts",    distance:"1.1 km", age:"Ages 5–9", day:"Sun", time:"2:00 PM",  price:"$28",  status:"open",    spotsLeft:5,  total:8,  x:66, y:44 },
+  { id:"skate",  title:"Learn-to-Skate Saturdays",        place:"Glebe Memorial Arena",       category:"sports",  distance:"2.8 km", age:"Ages 4–8", day:"Sat", time:"8:45 AM",  price:"$16",  status:"closed",  spotsLeft:0,  total:16, x:46, y:24 },
+];
+
+const FRIENDS = [
+  { name:"Maya Okafor" }, { name:"Sam Lee" },
+  { name:"Priya Nair" },  { name:"Dev Singh" },
+];
+
+const CAT_COLOR = {
+  sports:"#F4612E", arts:"#9B5DE5", music:"#E0559B",
+  outdoor:"#1F9E5A", learn:"#E89110", water:"#2BB7C4",
+};
+const CAT_LABEL = { sports:"Sports", arts:"Arts", music:"Music", outdoor:"Outdoor", water:"Water", learn:"Learn" };
+
+const AV_COLORS = ["#FB8B3D","#3D74E8","#1F9E5A","#9B5DE5","#E0559B","#2BB7C4","#E89110"];
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function avatarBg(name) {
+  let v = 0; for (const c of name) v = (v * 31 + c.charCodeAt(0)) & 0xffff;
+  return AV_COLORS[v % AV_COLORS.length];
+}
+function initials(name) { return name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase(); }
+function availCfg(status) {
+  if (status === "open")    return { fg:"var(--green-700)",  bg:"var(--green-50)",  dot:"var(--green-500)",  label:"Open" };
+  if (status === "filling") return { fg:"var(--amber-700)", bg:"var(--amber-50)", dot:"var(--amber-500)", label:"Filling" };
+  return { fg:"var(--ink-600)", bg:"var(--sand-200)", dot:"var(--ink-400)", label: status === "full" ? "Full" : "Closed" };
+}
+
+// ── SVG Icon factory ──────────────────────────────────────────────────────────
+// Each icon is a function returning an SVG element via createElement
+const svgAttrs = (size, sw, color) => ({
+  xmlns:"http://www.w3.org/2000/svg",
+  width:size, height:size, viewBox:"0 0 24 24",
+  fill:"none", stroke:color, strokeWidth:sw,
+  strokeLinecap:"round", strokeLinejoin:"round",
+  style:{ display:"block", flexShrink:0 },
+});
+
+// Use raw SVG polylines/paths as inline HTML for reliable rendering
+function Icon({ name, size = 20, sw = 2, color = "currentColor" }) {
+  const icons = {
+    map:        `<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>`,
+    calendar:   `<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>`,
+    bookmark:   `<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>`,
+    users:      `<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`,
+    sliders:    `<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>`,
+    activity:   `<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>`,
+    palette:    `<circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.476-1.12-.288-.294-.456-.71-.456-1.147 0-.94.76-1.7 1.7-1.7H16c2.757 0 5-2.243 5-5C21 6.134 16.964 2 12 2z"/>`,
+    leaf:       `<path d="M2 22c1.25-1.25 2.5-2.5 3.5-4.5 1-2 1.5-5 1.5-5s3 .5 5 1.5c2 1 3.25 2.25 4.5 3.5"/><path d="M21 12c0 4.97-4.03 9-9 9S3 16.97 3 12c0-2.76 1.24-5.24 3.2-6.89"/>`,
+    music:      `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`,
+    droplet:    `<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>`,
+    check:      `<polyline points="20 6 9 17 4 12"/>`,
+    search:     `<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>`,
+    zap:        `<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>`,
+    'map-pin':  `<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>`,
+    clock:      `<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>`,
+    heart:      `<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>`,
+    navigation: `<polygon points="3 11 22 2 13 21 11 13 3 11"/>`,
+  };
+  const inner = icons[name] || "";
+  return h("svg", {
+    ...svgAttrs(size, sw, color),
+    dangerouslySetInnerHTML: { __html: inner },
+  });
+}
+
+// ── Small UI components ───────────────────────────────────────────────────────
+function Avatar({ name, size = "sm" }) {
+  return h("div", {
+    className: `avatar avatar-${size}`,
+    style: { background: avatarBg(name) },
+    title: name,
+  }, initials(name));
+}
+
+function AvailPill({ status, spotsLeft }) {
+  const { fg, bg, dot, label } = availCfg(status);
+  const extra = status === "filling" ? ` · ${spotsLeft} left` : "";
+  return h("span", { className:"avail-pill", style:{ color:fg, background:bg } },
+    h("span", { className:"avail-dot", style:{ background:dot } }),
+    label + extra
+  );
+}
+
+function CatTag({ category }) {
+  const color = CAT_COLOR[category] || "var(--text-muted)";
+  return h("span", {
+    className: "cat-tag",
+    style: { background: color + "1a", color },
+  },
+    h(Icon, { name: { sports:"activity", arts:"palette", music:"music", outdoor:"leaf", water:"droplet", learn:"check" }[category] || "check", size:13, sw:2.4, color }),
+    CAT_LABEL[category] || category
+  );
+}
+
+// ── Logos ─────────────────────────────────────────────────────────────────────
+function LogoLockup() {
+  return h("svg", { width:160, height:40, viewBox:"0 0 320 80", fill:"none", "aria-label":"just4kidz" },
+    h("rect", { x:8, y:8, width:64, height:64, rx:18, fill:"#FB8B3D" }),
+    h("circle", { cx:30, cy:33, r:9, fill:"#fff" }),
+    h("circle", { cx:45, cy:43, r:6.6, fill:"#F6A623" }),
+    h("circle", { cx:56, cy:52, r:4.6, fill:"#5BD08C" }),
+    h("text", { x:90, y:52, fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:35, fontWeight:800, letterSpacing:-1.6, fill:"#241D18" }, "just4kidz")
+  );
+}
+
+function LogoMark() {
+  return h("svg", { width:32, height:32, viewBox:"0 0 96 96", fill:"none", "aria-label":"just4kidz" },
+    h("rect", { width:96, height:96, rx:26, fill:"#FB8B3D" }),
+    h("circle", { cx:33, cy:37, r:13, fill:"#fff" }),
+    h("circle", { cx:55, cy:51, r:9.5, fill:"#F6A623" }),
+    h("circle", { cx:72, cy:63, r:6.5, fill:"#5BD08C" })
+  );
+}
+
+// ── SideNav ───────────────────────────────────────────────────────────────────
+const NAV_ITEMS = [
+  { key:"discover", label:"Discover",  icon:"map" },
+  { key:"week",     label:"This week", icon:"calendar" },
+  { key:"saved",    label:"Saved",     icon:"bookmark" },
+  { key:"friends",  label:"Friends",   icon:"users" },
+  { key:"settings", label:"Settings",  icon:"sliders" },
+];
+
+function SideNav({ activeNav, onNav, collapsed, onToggle }) {
+  return h("aside", { className:`sidenav ${collapsed ? "collapsed" : "expanded"}` },
+    h("div", { className:"nav-header" },
+      collapsed ? h(LogoMark) : h(LogoLockup),
+      h("button", { className:"toggle-btn", onClick:onToggle, "aria-label": collapsed ? "Expand sidebar" : "Collapse sidebar" },
+        collapsed ? "›" : "‹"
+      )
+    ),
+    h("nav", { className:"nav-items" },
+      NAV_ITEMS.map(({ key, label, icon }) => {
+        const active = key === activeNav;
+        return h("button", {
+          key,
+          className: `nav-btn ${active ? "active" : ""}`,
+          onClick: () => onNav(key),
+          title: label,
+        },
+          h(Icon, { name:icon, size:20, sw: active ? 2.5 : 2.1, color: active ? "var(--color-primary)" : "var(--text-subtle)" }),
+          !collapsed && label
+        );
+      })
+    ),
+    h("div", { style:{ marginTop:"auto" } },
+      collapsed
+        ? h("div", { style:{ display:"flex", justifyContent:"center" } }, h(Avatar, { name:FRIENDS[0].name }))
+        : h("div", { className:"friends-box" },
+            h("div", { className:"friends-label" }, "Westboro Parents"),
+            h("div", { className:"friends-row" },
+              FRIENDS.slice(0, 4).map((f, i) =>
+                h("div", { key:f.name, style:{ marginLeft: i ? -10 : 0 } }, h(Avatar, { name:f.name }))
+              ),
+              h("span", { style:{ marginLeft:8, fontSize:12.5, fontWeight:700, color:"var(--text-muted)" } }, "+8")
+            )
+          )
+    )
+  );
+}
+
+// ── ActivityCard ──────────────────────────────────────────────────────────────
+function ActivityCard({ activity, selected, onClick }) {
+  const { title, place, category, distance, age, day, time, price, status, spotsLeft } = activity;
+  return h("div", {
+    className: `activity-card ${selected ? "selected" : ""}`,
+    onClick,
+    role:"button", tabIndex:0,
+    onKeyDown: e => (e.key === "Enter" || e.key === " ") && onClick(),
+  },
+    h("div", { className:"card-top" },
+      h(CatTag, { category }),
+      h(AvailPill, { status, spotsLeft })
+    ),
+    h("div", { className:"card-title" }, title),
+    h("div", { className:"card-meta" },
+      h("span", { className:"meta-item" }, h(Icon, { name:"map-pin", size:13, sw:2.2, color:"var(--text-subtle)" }), place),
+      h("span", { className:"meta-item" },
+        h(Icon, { name:"clock", size:13, sw:2.2, color:"var(--text-subtle)" }),
+        h("span", { style:{ fontFamily:"var(--font-mono)", fontWeight:500 } }, `${day} ${time}`)
+      ),
+      h("span", { className:"meta-item" }, h(Icon, { name:"users", size:13, sw:2.2, color:"var(--text-subtle)" }), age),
+      h("span", { className:"card-price" }, price)
+    )
+  );
+}
+
+// ── MapPin ────────────────────────────────────────────────────────────────────
+function MapPin({ activity, selected, onSelect }) {
+  const { id, x, y, category, price, status } = activity;
+  const color = CAT_COLOR[category] || "#888";
+  const catIconName = { sports:"activity", arts:"palette", music:"music", outdoor:"leaf", water:"droplet", learn:"check" }[category];
+  const muted = status === "full" || status === "closed";
+
+  return h("button", {
+    onClick: () => onSelect(id),
+    style: {
+      position:"absolute", left:`${x}%`, top:`${y}%`,
+      transform:`translate(-50%,-100%) scale(${selected ? 1.12 : 1})`,
+      transformOrigin:"bottom center", border:"none", background:"transparent",
+      cursor:"pointer", padding:0, zIndex: selected ? 5 : muted ? 1 : 2,
+      transition:"transform var(--dur-base) var(--ease-spring)",
+      filter: muted && !selected ? "grayscale(.5)" : "none",
+    },
+  },
+    h("div", {
+      style: {
+        display:"flex", alignItems:"center", gap:5,
+        padding: selected ? "5px 11px 5px 6px" : "4px",
+        borderRadius:"var(--radius-pill)",
+        background: selected ? color : "var(--surface-card)",
+        color: selected ? "#fff" : color,
+        boxShadow: selected ? "var(--shadow-lg)" : "var(--shadow-md)",
+        border: selected ? "none" : "1.5px solid #fff",
+        opacity: muted && !selected ? 0.85 : 1,
+        transition:"all var(--dur-base) var(--ease-out)",
+      },
+    },
+      h("span", {
+        style: {
+          width:26, height:26, borderRadius:"50%", flexShrink:0,
+          display:"flex", alignItems:"center", justifyContent:"center",
+          background: selected ? "rgba(255,255,255,.22)" : color,
+        },
+      }, h(Icon, { name: catIconName || "check", size:15, sw:2.4, color:"#fff" })),
+      selected && h("span", { style:{ fontSize:12.5, fontWeight:800, fontFamily:"var(--font-mono)" } }, price)
+    ),
+    h("div", {
+      style: {
+        width:2, height: selected ? 10 : 7,
+        background: selected ? color : "#fff",
+        margin:"0 auto", borderRadius:2,
+      },
+    })
+  );
+}
+
+// ── MapView ───────────────────────────────────────────────────────────────────
+const MAP_BLOCKS = [[20,14,16,12],[44,12,14,14],[64,18,12,10],[20,30,12,14],[50,34,12,12],[34,60,14,12],[58,58,14,14]];
+
+function MapView({ activities, selectedId, onSelect }) {
+  return h("div", { style:{ position:"absolute", inset:0, background:"#EDE6D8", overflow:"hidden" } },
+    // parks
+    h("div", { style:{ position:"absolute", left:"8%",  top:"52%", width:"32%", height:"40%", background:"#D6E8C9", borderRadius:40 } }),
+    h("div", { style:{ position:"absolute", right:"6%", top:"8%",  width:"26%", height:"26%", background:"#D6E8C9", borderRadius:36 } }),
+    // water
+    h("div", { style:{ position:"absolute", right:"-6%", bottom:"-8%", width:"46%", height:"42%", background:"#BFE0EC", borderRadius:"50% 50% 0 0", transform:"rotate(-12deg)" } }),
+    // blocks
+    ...MAP_BLOCKS.map((b, i) =>
+      h("div", { key:i, style:{ position:"absolute", left:`${b[0]}%`, top:`${b[1]}%`, width:`${b[2]}%`, height:`${b[3]}%`, background:"#F6F1E7", borderRadius:10, boxShadow:"inset 0 0 0 1px rgba(74,47,24,.05)" } })
+    ),
+    // roads
+    h("div", { style:{ position:"absolute", left:0, right:0, top:"46%",  height:14, background:"#FBF8F1" } }),
+    h("div", { style:{ position:"absolute", top:0, bottom:0, left:"42%",  width:13, background:"#FBF8F1" } }),
+    h("div", { style:{ position:"absolute", left:0, right:0, top:"27%",  height:8,  background:"#FBF8F1", opacity:.8 } }),
+    h("div", { style:{ position:"absolute", top:0, bottom:0, left:"70%", width:8,  background:"#FBF8F1", opacity:.8 } }),
+    // you are here
+    h("div", { style:{ position:"absolute", left:"46%", top:"48%", transform:"translate(-50%,-50%)" } },
+      h("div", { style:{ width:18, height:18, borderRadius:"50%", background:"var(--sky-400)", boxShadow:"0 0 0 4px rgba(46,155,201,.25),0 0 0 9px rgba(46,155,201,.12)" } })
+    ),
+    // pins
+    ...activities.map(a =>
+      h(MapPin, { key:a.id, activity:a, selected:a.id === selectedId, onSelect })
+    )
+  );
+}
+
+// ── DetailPopover ─────────────────────────────────────────────────────────────
+function DetailPopover({ activity, saved, onSave }) {
+  if (!activity) return null;
+  const { title, place, distance, category, age, day, time, price, status, spotsLeft } = activity;
+  return h("div", { className:"map-popover" },
+    h("div", { className:"pop-top" },
+      h(CatTag, { category }),
+      h("span", { style:{ marginLeft:"auto" } }, h(AvailPill, { status, spotsLeft }))
+    ),
+    h("div", { className:"pop-title" }, title),
+    h("div", { className:"pop-loc" },
+      h(Icon, { name:"map-pin", size:14, sw:2.2, color:"var(--text-subtle)" }),
+      place,
+      h("span", { style:{ fontFamily:"var(--font-mono)", fontWeight:500, color:"var(--text-subtle)", marginLeft:4 } }, `· ${distance}`)
+    ),
+    h("div", { className:"pop-meta" },
+      h("span", { className:"meta-item" }, h(Icon, { name:"users", size:13, sw:2.2, color:"var(--text-subtle)" }), age),
+      h("span", { className:"meta-item" },
+        h(Icon, { name:"clock", size:13, sw:2.2, color:"var(--text-subtle)" }),
+        h("span", { style:{ fontFamily:"var(--font-mono)", fontWeight:500 } }, `${day} ${time}`)
+      ),
+      h("span", { style:{ marginLeft:"auto", fontFamily:"var(--font-mono)", fontWeight:500, fontSize:15, color:"var(--text-strong)" } }, price)
+    ),
+    h("div", { className:"pop-actions" },
+      h("button", { className:"btn btn-primary btn-sm btn-full" }, "View details"),
+      h("button", { className:"btn-soft", onClick:onSave, title:"Save",
+        style:{ background: saved ? "var(--color-primary-soft)" : undefined } },
+        h(Icon, { name:"heart", size:16, sw: saved ? 0 : 2,
+          color: saved ? "var(--color-primary)" : "currentColor",
+          style: saved ? { fill:"var(--color-primary)" } : {} })
+      )
+    )
+  );
+}
+
+// ── Dashboard (root) ──────────────────────────────────────────────────────────
+const FILTER_CHIPS = [
+  { key:"open",    label:"Open now", icon:"check" },
+  { key:"sports",  label:"Sports",   icon:"activity" },
+  { key:"arts",    label:"Arts",     icon:"palette" },
+  { key:"outdoor", label:"Outdoor",  icon:"leaf" },
+  { key:"music",   label:"Music",    icon:"music" },
+  { key:"water",   label:"Water",    icon:"droplet" },
+];
+
+function Dashboard() {
+  const [activeNav,  setActiveNav]  = useState("discover");
+  const [collapsed,  setCollapsed]  = useState(false);
+  const [filter,     setFilter]     = useState(null);
+  const [selectedId, setSelectedId] = useState("forest");
+  const [saved,      setSaved]      = useState(() => new Set(["art"]));
+
+  const filteredList = useMemo(() => {
+    if (filter === "open") return ACTIVITIES.filter(a => a.status === "open" || a.status === "filling");
+    if (filter)            return ACTIVITIES.filter(a => a.category === filter);
+    return ACTIVITIES;
+  }, [filter]);
+
+  const selectedActivity = useMemo(() => ACTIVITIES.find(a => a.id === selectedId), [selectedId]);
+
+  const toggleFilter = useCallback(key => setFilter(f => f === key ? null : key), []);
+  const toggleSaved  = useCallback(() => setSaved(s => {
+    const next = new Set(s);
+    next.has(selectedId) ? next.delete(selectedId) : next.add(selectedId);
+    return next;
+  }), [selectedId]);
+
+  return h("div", { className:"app" },
+    h(SideNav, { activeNav, onNav:setActiveNav, collapsed, onToggle:() => setCollapsed(c => !c) }),
+
+    h("div", { className:"main" },
+      // Header
+      h("header", { className:"app-header" },
+        h("div", null,
+          h("div", { className:"header-title" }, "Discover near Westboro"),
+          h("div", { className:"header-sub" }, "Live openings on the map — tap a pin to see details")
+        ),
+        h("div", { className:"header-right" },
+          h("div", { className:"search-bar" },
+            h(Icon, { name:"search", size:18, sw:2.2, color:"var(--text-subtle)" }),
+            h("span", null, "Search activities & places")
+          ),
+          h("button", { className:"btn btn-primary" },
+            h(Icon, { name:"zap", size:16, sw:2.4, color:"#fff" }),
+            "Plan weekend"
+          ),
+          h(Avatar, { name:"Jordan Bell", size:"md" })
+        )
+      ),
+
+      // Body
+      h("div", { className:"body" },
+        // Results list
+        h("div", { className:"results-panel" },
+          h("div", { className:"results-header" },
+            h("span", { className:"results-count" }, `${filteredList.length} spots near you`),
+            h("button", { className:"sort-btn" }, "Closest first ▾")
+          ),
+          h("div", { className:"results-list" },
+            filteredList.map(activity =>
+              h(ActivityCard, {
+                key: activity.id,
+                activity,
+                selected: activity.id === selectedId,
+                onClick: () => setSelectedId(activity.id),
+              })
+            )
+          )
+        ),
+
+        // Map
+        h("div", { className:"map-pane" },
+          h(MapView, { activities:filteredList, selectedId, onSelect:setSelectedId }),
+
+          // Filter chips
+          h("div", { className:"map-chips" },
+            FILTER_CHIPS.map(({ key, label, icon }) =>
+              h("button", {
+                key,
+                className: `filter-chip ${filter === key ? "active" : ""}`,
+                onClick: () => toggleFilter(key),
+              },
+                h(Icon, { name:icon, size:14, sw:2.2, color: filter === key ? "#fff" : "var(--text-muted)" }),
+                label
+              )
+            )
+          ),
+
+          // Locate button
+          h("div", { className:"map-locate" },
+            h("button", { className:"btn-surface", title:"Locate me" },
+              h(Icon, { name:"navigation", size:18, sw:2.2, color:"var(--text-body)" })
+            )
+          ),
+
+          // Detail popover
+          selectedActivity && h(DetailPopover, {
+            key: selectedId,
+            activity: selectedActivity,
+            saved: saved.has(selectedId),
+            onSave: toggleSaved,
+          })
+        )
+      )
+    )
+  );
+}
+
+// ── Mount ─────────────────────────────────────────────────────────────────────
+createRoot(document.getElementById("root")).render(h(Dashboard));
+</script>
+</body>
+</html>
