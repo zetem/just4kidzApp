@@ -42,15 +42,17 @@
   --font-mono:"DM Mono",ui-monospace,"SF Mono",monospace;
 }
 *,*::before,*::after{box-sizing:border-box}
-html,body{margin:0;padding:0;height:100%}
-body{font-family:var(--font-sans);font-size:15px;line-height:1.45;color:var(--text-body);background:var(--sand-200);-webkit-font-smoothing:antialiased;display:flex;align-items:center;justify-content:center;padding:24px;min-height:100vh}
+html,body{margin:0;padding:0}
+html{overflow-x:auto}
+body{font-family:var(--font-sans);font-size:15px;line-height:1.45;color:var(--text-body);background:var(--sand-200);-webkit-font-smoothing:antialiased;display:flex;align-items:flex-start;justify-content:center;padding:24px;min-height:100vh;min-width:fit-content}
 h1,h2,h3,h4,h5,h6,p{margin:0}
 button{font-family:var(--font-sans);cursor:pointer}
 :focus-visible{outline:none;box-shadow:0 0 0 3px rgba(61,116,232,.3)}
-*{scrollbar-width:none}
-*::-webkit-scrollbar{display:none}
+.results-list{scrollbar-width:thin;scrollbar-color:var(--sand-300) transparent}
+.results-list::-webkit-scrollbar{display:block;width:4px}
+.results-list::-webkit-scrollbar-thumb{background:var(--sand-300);border-radius:4px}
 
-#root{display:flex;width:1440px;max-width:100%;height:900px}
+#root{display:flex;width:1440px;height:900px;flex-shrink:0}
 .app{display:flex;width:100%;height:100%;background:var(--bg-app);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-xl)}
 
 /* sidebar */
