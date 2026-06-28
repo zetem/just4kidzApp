@@ -118,6 +118,28 @@ button{font-family:var(--font-sans);cursor:pointer}
 .meta-item{display:inline-flex;align-items:center;gap:4px}
 .card-price{margin-left:auto;font-family:var(--font-mono);font-weight:500;font-size:15px;color:var(--text-strong)}
 
+/* modal overlay */
+.modal-overlay{position:fixed;inset:0;background:rgba(36,29,24,.45);backdrop-filter:blur(3px);z-index:100;display:flex;align-items:center;justify-content:center;animation:fadeIn var(--dur-base) var(--ease-out)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:var(--surface-card);border-radius:var(--radius-card);box-shadow:var(--shadow-xl);width:520px;max-width:calc(100vw - 48px);max-height:calc(100vh - 80px);overflow-y:auto;animation:slideUp var(--dur-base) var(--ease-out)}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.modal-header{display:flex;align-items:center;justify-content:space-between;padding:22px 24px 0}
+.modal-title{font-size:19px;font-weight:800;letter-spacing:-.01em;color:var(--text-strong)}
+.modal-close{width:32px;height:32px;border:none;background:var(--bg-subtle);border-radius:50%;font-size:18px;font-weight:700;color:var(--text-muted);display:flex;align-items:center;justify-content:center;cursor:pointer;line-height:1}
+.modal-close:hover{background:var(--sand-200)}
+.modal-body{padding:20px 24px 24px;display:flex;flex-direction:column;gap:16px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:12.5px;font-weight:700;color:var(--text-muted);letter-spacing:.02em}
+.field input,.field select{height:42px;border:1.5px solid var(--border-default);border-radius:var(--radius-sm);background:var(--bg-subtle);font-family:var(--font-sans);font-size:14px;font-weight:500;color:var(--text-strong);padding:0 13px;transition:border-color var(--dur-fast),box-shadow var(--dur-fast)}
+.field input:focus,.field select:focus{outline:none;border-color:var(--color-primary);box-shadow:0 0 0 3px rgba(251,139,61,.18)}
+.field input::placeholder{color:var(--text-subtle)}
+.modal-footer{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:0 24px 24px}
+.btn-ghost{background:none;border:1.5px solid var(--border-default);color:var(--text-muted);height:40px;padding:0 18px;border-radius:var(--radius-pill);font-size:14px;font-weight:700;font-family:var(--font-sans);cursor:pointer}
+.btn-ghost:hover{background:var(--bg-subtle)}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--ink-900);color:#fff;border-radius:var(--radius-pill);padding:10px 20px;font-size:14px;font-weight:700;box-shadow:var(--shadow-lg);z-index:200;animation:toastIn .22s var(--ease-out)}
+@keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
 /* map */
 .map-pane{flex:1;position:relative;min-width:0;overflow:hidden}
 .map-chips{position:absolute;top:16px;left:16px;right:16px;display:flex;gap:8px;flex-wrap:wrap;z-index:10}
@@ -453,6 +475,77 @@ function DetailPopover({ activity, saved, onSave }) {
   );
 }
 
+// ── AddActivityModal ──────────────────────────────────────────────────────────
+const CATEGORY_OPTIONS = ["sports","arts","music","outdoor","water","learn"];
+
+function AddActivityModal({ onClose, onAdd }) {
+  const [form, setForm] = useState({ name:"", phone:"", activity:"", date:"", age:"", location:"", link:"" });
+
+  function set(key, val) { setForm(f => ({ ...f, [key]: val })); }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!form.name.trim() || !form.activity.trim()) return;
+    onAdd(form);
+    onClose();
+  }
+
+  return h("div", { className:"modal-overlay", onClick: e => e.target === e.currentTarget && onClose() },
+    h("div", { className:"modal", role:"dialog", "aria-modal":"true", "aria-labelledby":"modal-title" },
+      h("div", { className:"modal-header" },
+        h("div", { id:"modal-title", className:"modal-title" }, "Add an activity"),
+        h("button", { className:"modal-close", onClick:onClose, "aria-label":"Close" }, "×")
+      ),
+      h("form", { className:"modal-body", onSubmit:handleSubmit },
+        h("div", { className:"form-row" },
+          h("div", { className:"field" },
+            h("label", null, "Your name"),
+            h("input", { type:"text", placeholder:"e.g. Jordan Bell", value:form.name, onChange:e=>set("name",e.target.value), required:true })
+          ),
+          h("div", { className:"field" },
+            h("label", null, "Phone number"),
+            h("input", { type:"tel", placeholder:"e.g. 613-555-0100", value:form.phone, onChange:e=>set("phone",e.target.value) })
+          )
+        ),
+        h("div", { className:"form-row" },
+          h("div", { className:"field" },
+            h("label", null, "Activity"),
+            h("select", { value:form.activity, onChange:e=>set("activity",e.target.value), required:true },
+              h("option", { value:"", disabled:true }, "Choose category…"),
+              CATEGORY_OPTIONS.map(c => h("option", { key:c, value:c }, CAT_LABEL[c] || c))
+            )
+          ),
+          h("div", { className:"field" },
+            h("label", null, "Date"),
+            h("input", { type:"date", value:form.date, onChange:e=>set("date",e.target.value) })
+          )
+        ),
+        h("div", { className:"form-row" },
+          h("div", { className:"field" },
+            h("label", null, "Age range"),
+            h("input", { type:"text", placeholder:"e.g. Ages 3–6", value:form.age, onChange:e=>set("age",e.target.value) })
+          ),
+          h("div", { className:"field" },
+            h("label", null, "Location"),
+            h("input", { type:"text", placeholder:"e.g. Riverside Community Centre", value:form.location, onChange:e=>set("location",e.target.value) })
+          )
+        ),
+        h("div", { className:"field" },
+          h("label", null, "Link (optional)"),
+          h("input", { type:"url", placeholder:"https://…", value:form.link, onChange:e=>set("link",e.target.value) })
+        ),
+        h("div", { className:"modal-footer", style:{padding:"8px 0 0"} },
+          h("button", { type:"button", className:"btn-ghost", onClick:onClose }, "Cancel"),
+          h("button", { type:"submit", className:"btn btn-primary" },
+            h(Icon, { name:"zap", size:15, sw:2.4, color:"#fff" }),
+            "Add activity"
+          )
+        )
+      )
+    )
+  );
+}
+
 // ── Dashboard (root) ──────────────────────────────────────────────────────────
 const FILTER_CHIPS = [
   { key:"open",    label:"Open now", icon:"check" },
@@ -469,6 +562,14 @@ function Dashboard() {
   const [filter,     setFilter]     = useState(null);
   const [selectedId, setSelectedId] = useState("forest");
   const [saved,      setSaved]      = useState(() => new Set(["art"]));
+  const [showModal,  setShowModal]  = useState(false);
+  const [toast,      setToast]      = useState(null);
+
+  function handleAdd(form) {
+    const label = CAT_LABEL[form.activity] || form.activity;
+    setToast(`"${label}" added successfully!`);
+    setTimeout(() => setToast(null), 3000);
+  }
 
   const filteredList = useMemo(() => {
     if (filter === "open") return ACTIVITIES.filter(a => a.status === "open" || a.status === "filling");
@@ -485,7 +586,10 @@ function Dashboard() {
     return next;
   }), [selectedId]);
 
-  return h("div", { className:"app" },
+  return h("div", null,
+    showModal && h(AddActivityModal, { onClose:() => setShowModal(false), onAdd:handleAdd }),
+    toast && h("div", { className:"toast" }, toast),
+    h("div", { className:"app" },
     h(SideNav, { activeNav, onNav:setActiveNav, collapsed, onToggle:() => setCollapsed(c => !c) }),
 
     h("div", { className:"main" },
@@ -500,9 +604,9 @@ function Dashboard() {
             h(Icon, { name:"search", size:18, sw:2.2, color:"var(--text-subtle)" }),
             h("span", null, "Search activities & places")
           ),
-          h("button", { className:"btn btn-primary" },
+          h("button", { className:"btn btn-primary", onClick:() => setShowModal(true) },
             h(Icon, { name:"zap", size:16, sw:2.4, color:"#fff" }),
-            "Plan weekend"
+            "Add activity"
           ),
           h(Avatar, { name:"Jordan Bell", size:"md" })
         )
@@ -563,7 +667,7 @@ function Dashboard() {
         )
       )
     )
-  );
+  )); // close .app and outer wrapper
 }
 
 // ── Mount ─────────────────────────────────────────────────────────────────────
